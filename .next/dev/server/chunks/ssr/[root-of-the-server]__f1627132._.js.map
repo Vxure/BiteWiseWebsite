@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 14, "column": 0}, "map": {"version":3,"sources":["file:///Users/regan/BiteWise%20Website%20/app/page.tsx"],"sourcesContent":["import { HeroSection } from \"@/components/hero-section\"\nimport { FeaturesSection } from \"@/components/features-section\"\nimport { AppPreviewSection } from \"@/components/app-preview-section\"\nimport { HowItWorksSection } from \"@/components/how-it-works-section\"\nimport { FinalCtaSection } from \"@/components/final-cta-section\"\nimport { Footer } from \"@/components/footer\"\n\nexport default function Home() {\n  return (\n    <main className=\"min-h-screen bg-background\">\n      <HeroSection />\n      <FeaturesSection />\n      <AppPreviewSection />\n      <HowItWorksSection />\n      <FinalCtaSection />\n      <Footer />\n    </main>\n  )\n}\n"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAOe,SAAS;IACtB,qBACE,8OAAC;QAAK,WAAU;;0BACd,8OAAC;;;;;0BACD,8OAAC;;;;;0BACD,8OAAC;;;;;0BACD,8OAAC;;;;;0BACD,8OAAC;;;;;0BACD,8OAAC;;;;;;;;;;;AAGP"}}]
+}
