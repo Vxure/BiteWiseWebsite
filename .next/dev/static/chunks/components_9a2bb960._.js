@@ -597,7 +597,7 @@ function Navigation() {
     }["Navigation.useEffect"], []);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
         className: `fixed top-0 left-0 right-0 z-50 transition-all duration-300 
-        bg-background/90 backdrop-blur-md
+        bg-background/70 backdrop-blur-md
         ${isScrolled ? 'border-b border-border shadow-lg backdrop-blur-xl' : 'border-b border-transparent'}
       `,
         children: [

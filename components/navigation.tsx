@@ -23,7 +23,7 @@ export function Navigation() {
     return (
         <nav
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 
-        bg-background/90 backdrop-blur-md
+        bg-background/70 backdrop-blur-md
         ${isScrolled ? 'border-b border-border shadow-lg backdrop-blur-xl' : 'border-b border-transparent'}
       `}
         >
@@ -67,8 +67,8 @@ export function Navigation() {
             {/* Mobile Menu - CSS transitions for GPU acceleration */}
             <div
                 className={`md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-lg border-b border-border overflow-hidden transition-all duration-300 ease-out ${isOpen
-                        ? 'max-h-20 opacity-100'
-                        : 'max-h-0 opacity-0 border-transparent'
+                    ? 'max-h-20 opacity-100'
+                    : 'max-h-0 opacity-0 border-transparent'
                     }`}
             >
                 <div className="px-4 py-4">
