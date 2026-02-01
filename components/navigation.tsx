@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Sun, Moon } from "lucide-react"
+import { useTheme } from "./theme-provider"
 
 export function Navigation() {
     const [isOpen, setIsOpen] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
+    const { theme, toggleTheme, mounted } = useTheme()
 
     useEffect(() => {
         const handleScroll = () => {
@@ -35,32 +37,65 @@ export function Navigation() {
                     </Link>
 
                     {/* Desktop Nav */}
-                    <div className="hidden md:block">
+                    <div className="hidden md:flex items-center gap-6">
                         <Link
                             href="/features"
                             className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
                         >
                             Explore Taberoux
                         </Link>
+
+                        {/* Theme Toggle - Desktop */}
+                        {mounted && (
+                            <button
+                                onClick={toggleTheme}
+                                className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                                aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
+                            >
+                                {theme === "light" ? (
+                                    <Moon className="h-5 w-5" />
+                                ) : (
+                                    <Sun className="h-5 w-5" />
+                                )}
+                            </button>
+                        )}
                     </div>
 
-                    {/* Mobile Hamburger - CSS transition for smooth toggle */}
-                    <button
-                        onClick={() => setIsOpen(!isOpen)}
-                        className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
-                        aria-label="Toggle menu"
-                    >
-                        <div className="relative w-6 h-6">
-                            <Menu
-                                className={`h-6 w-6 absolute inset-0 transition-all duration-200 ease-out ${isOpen ? 'opacity-0 rotate-90 scale-75' : 'opacity-100 rotate-0 scale-100'
-                                    }`}
-                            />
-                            <X
-                                className={`h-6 w-6 absolute inset-0 transition-all duration-200 ease-out ${isOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-75'
-                                    }`}
-                            />
-                        </div>
-                    </button>
+                    {/* Mobile Controls */}
+                    <div className="flex items-center gap-2 md:hidden">
+                        {/* Theme Toggle - Mobile */}
+                        {mounted && (
+                            <button
+                                onClick={toggleTheme}
+                                className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                                aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
+                            >
+                                {theme === "light" ? (
+                                    <Moon className="h-5 w-5" />
+                                ) : (
+                                    <Sun className="h-5 w-5" />
+                                )}
+                            </button>
+                        )}
+
+                        {/* Hamburger */}
+                        <button
+                            onClick={() => setIsOpen(!isOpen)}
+                            className="p-2 text-muted-foreground hover:text-foreground transition-colors"
+                            aria-label="Toggle menu"
+                        >
+                            <div className="relative w-6 h-6">
+                                <Menu
+                                    className={`h-6 w-6 absolute inset-0 transition-all duration-200 ease-out ${isOpen ? 'opacity-0 rotate-90 scale-75' : 'opacity-100 rotate-0 scale-100'
+                                        }`}
+                                />
+                                <X
+                                    className={`h-6 w-6 absolute inset-0 transition-all duration-200 ease-out ${isOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-75'
+                                        }`}
+                                />
+                            </div>
+                        </button>
+                    </div>
                 </div>
             </div>
 

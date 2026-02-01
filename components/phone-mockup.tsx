@@ -16,16 +16,16 @@ export function PhoneMockup({ label = "App Screenshot", className = "", imageSrc
       transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
       className={`relative ${className}`}
     >
-      {/* Glow effect */}
-      <div className="absolute -inset-2 rounded-[3.5rem] bg-gradient-to-tr from-primary/30 via-secondary/20 to-accent/30 blur-xl opacity-60" />
+      {/* Subtle floating glow */}
+      <div className="absolute -inset-4 rounded-[3rem] bg-gradient-to-tr from-primary/20 via-secondary/15 to-accent/20 blur-2xl opacity-50" />
 
-      {/* Phone Frame - always dark like real phones */}
-      <div className="relative h-[580px] w-[280px] rounded-[3rem] border-[12px] border-slate-900 bg-slate-900 p-2 shadow-2xl md:h-[640px] md:w-[320px]">
+      {/* Phone Frame - concentric radii: 3rem (48px) outer, p-3 (12px) bezel, 2.25rem (36px) inner */}
+      <div className="relative h-[580px] w-[280px] max-w-[340px] rounded-[3rem] bg-black p-3 shadow-2xl md:h-[640px] md:w-[320px]">
         {/* Dynamic Island */}
-        <div className="absolute left-1/2 top-4 z-20 h-7 w-28 -translate-x-1/2 rounded-full bg-black" />
+        <div className="absolute left-1/2 top-4 z-20 h-6 w-24 -translate-x-1/2 rounded-full bg-black" />
 
-        {/* Screen */}
-        <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[2.2rem] bg-white">
+        {/* Screen - inner radius: outer (48px) - padding (12px) = 36px = 2.25rem */}
+        <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[2.25rem] bg-white">
           {imageSrc ? (
             <Image
               src={imageSrc}
@@ -50,6 +50,9 @@ export function PhoneMockup({ label = "App Screenshot", className = "", imageSrc
             </div>
           )}
         </div>
+
+        {/* Home Bar indicator */}
+        <div className="absolute bottom-2 left-1/2 z-20 h-1 w-32 -translate-x-1/2 rounded-full bg-black/20" />
       </div>
     </motion.div>
   )

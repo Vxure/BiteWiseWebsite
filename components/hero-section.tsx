@@ -8,7 +8,7 @@ import { PhoneMockup } from "./phone-mockup"
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-background px-4 pt-28 pb-12 md:pt-24 md:pb-20">
+    <section className="relative min-h-screen overflow-hidden bg-background px-4 pt-28 pb-12 md:pt-24 md:pb-20 lg:flex lg:items-center lg:pt-16 lg:pb-16">
       {/* Gradient mesh background */}
       <div className="absolute inset-0 gradient-mesh" />
 
@@ -16,8 +16,9 @@ export function HeroSection() {
       <div className="absolute top-10 left-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] animate-pulse-glow" />
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-primary/8 rounded-full blur-[150px] animate-pulse-glow-delayed" />
 
-      <div className="relative mx-auto max-w-7xl">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-8">
+      <div className="relative mx-auto max-w-5xl">
+        {/* Centered container with gap - whitespace flows to edges */}
+        <div className="grid items-center justify-center gap-8 lg:grid-cols-[1fr_auto] lg:gap-58">
           {/* Left Content */}
           <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
             <motion.div
@@ -81,15 +82,16 @@ export function HeroSection() {
             </motion.div>
           </div>
 
-          {/* Right Content - Phone Mockup */}
+          {/* Right Content - Phone Mockup with tilt, pushed down */}
           <motion.div
             initial={{ opacity: 0, x: 40, rotate: 3 }}
             animate={{ opacity: 1, x: 0, rotate: 3 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="flex justify-center lg:justify-end"
+            className="flex justify-center mt-8 lg:mt-12"
           >
             <div className="relative">
-              <div className="absolute -inset-4 rounded-[3rem] bg-gradient-to-tr from-primary/20 via-secondary/10 to-accent/20 blur-2xl" />
+              {/* Light shadow beneath phone */}
+              <div className="absolute -inset-4 rounded-[3rem] bg-black/15 blur-2xl" />
               <PhoneMockup label="App Screenshot" imageSrc="/image/introScreen.png" className="relative z-10" />
             </div>
           </motion.div>

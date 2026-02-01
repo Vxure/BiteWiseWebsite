@@ -4,31 +4,31 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Taberoux Brand Colors - Modern, Clean, Playful yet Serious */
+  /* Taberoux Brand Colors - Warm & Inviting Kitchen Feel */
   --primary: #2d6a4f;
   --primary-foreground: #ffffff;
   --secondary: #40916c;
   --accent: #f97316;
   --accent-secondary: #fb923c;
   --accent-gold: #fbbf24;
-  --deep-tone: #0f172a;
+  --deep-tone: #2c2418;
 
-  /* Modern Background Palette */
-  --background-light: #f8fafc;
-  --background-subtle: #f1f5f9;
-  --background-muted: #e2e8f0;
+  /* Warm Cream Background Palette - Butter & Parchment */
+  --background-light: #f5efe6;
+  --background-subtle: #ede4d8;
+  --background-muted: #e2d6c6;
 
-  /* Semantic tokens */
-  --background: #ffffff;
-  --foreground: #0f172a;
-  --card: #ffffff;
-  --card-foreground: #0f172a;
-  --popover: #ffffff;
-  --popover-foreground: #0f172a;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --border: #e2e8f0;
-  --input: #f1f5f9;
+  /* Semantic tokens - Rich Cream undertones */
+  --background: #f8f4ed;
+  --foreground: #2c2418;
+  --card: #fdfbf7;
+  --card-foreground: #2c2418;
+  --popover: #fdfbf7;
+  --popover-foreground: #2c2418;
+  --muted: #ede4d8;
+  --muted-foreground: #5c4d3d;
+  --border: #d9cdc0;
+  --input: #ede4d8;
   --ring: #2d6a4f;
   --radius: 0.75rem;
 
@@ -39,62 +39,60 @@
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: #f5efe6;
+  --sidebar-foreground: #2c2418;
+  --sidebar-primary: #2d6a4f;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #ede4d8;
+  --sidebar-accent-foreground: #2c2418;
+  --sidebar-border: #d9cdc0;
+  --sidebar-ring: #2d6a4f;
 }
 
-/* Dark mode - automatically triggered by device settings */
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Dark mode brand colors - lighter greens for contrast */
-    --primary: #52b788;
-    --primary-foreground: #0f172a;
-    --secondary: #74c69d;
-    --accent: #fb923c;
-    --accent-secondary: #fdba74;
-    --accent-gold: #fcd34d;
-    --deep-tone: #f8fafc;
+/* Dark mode - Warm Espresso & Chocolate tones */
+.dark {
+  /* Dark mode brand colors - warm greens for cozy contrast */
+  --primary: #52b788;
+  --primary-foreground: #1a1410;
+  --secondary: #74c69d;
+  --accent: #fb923c;
+  --accent-secondary: #fdba74;
+  --accent-gold: #fcd34d;
+  --deep-tone: #f5efe6;
 
-    /* Dark Background Palette */
-    --background-light: #0f172a;
-    --background-subtle: #1e293b;
-    --background-muted: #334155;
+  /* Warm Dark Background Palette - Espresso & Mocha */
+  --background-light: #1a1410;
+  --background-subtle: #261e18;
+  --background-muted: #362a22;
 
-    /* Semantic tokens */
-    --background: #0a0f1a;
-    --foreground: #f1f5f9;
-    --card: #1e293b;
-    --card-foreground: #f1f5f9;
-    --popover: #1e293b;
-    --popover-foreground: #f1f5f9;
-    --muted: #1e293b;
-    --muted-foreground: #94a3b8;
-    --border: #334155;
-    --input: #1e293b;
-    --ring: #52b788;
+  /* Semantic tokens - Warm chocolate undertones */
+  --background: #140f0c;
+  --foreground: #f0e8df;
+  --card: #221a14;
+  --card-foreground: #f0e8df;
+  --popover: #221a14;
+  --popover-foreground: #f0e8df;
+  --muted: #2a211a;
+  --muted-foreground: #a89888;
+  --border: #3d3028;
+  --input: #2a211a;
+  --ring: #52b788;
 
-    --destructive: oklch(0.6 0.2 25);
-    --destructive-foreground: oklch(0.95 0.02 25);
-    --chart-1: oklch(0.7 0.2 145);
-    --chart-2: oklch(0.65 0.15 180);
-    --chart-3: oklch(0.6 0.18 35);
-    --chart-4: oklch(0.75 0.2 85);
-    --chart-5: oklch(0.7 0.19 70);
-    --sidebar: #1e293b;
-    --sidebar-foreground: #f8fafc;
-    --sidebar-primary: #52b788;
-    --sidebar-primary-foreground: #0f172a;
-    --sidebar-accent: #334155;
-    --sidebar-accent-foreground: #f8fafc;
-    --sidebar-border: #334155;
-    --sidebar-ring: #475569;
-  }
+  --destructive: oklch(0.6 0.2 25);
+  --destructive-foreground: oklch(0.95 0.02 25);
+  --chart-1: oklch(0.7 0.2 145);
+  --chart-2: oklch(0.65 0.15 180);
+  --chart-3: oklch(0.6 0.18 35);
+  --chart-4: oklch(0.75 0.2 85);
+  --chart-5: oklch(0.7 0.19 70);
+  --sidebar: #221a14;
+  --sidebar-foreground: #f0e8df;
+  --sidebar-primary: #52b788;
+  --sidebar-primary-foreground: #1a1410;
+  --sidebar-accent: #2a211a;
+  --sidebar-accent-foreground: #f0e8df;
+  --sidebar-border: #3d3028;
+  --sidebar-ring: #52b788;
 }
 
 @theme inline {
@@ -159,36 +157,33 @@
 
 /* Glassmorphism utility */
 .glass {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(253, 251, 247, 0.7);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(217, 205, 192, 0.5);
 }
 
-@media (prefers-color-scheme: dark) {
-  .glass {
-    background: rgba(30, 41, 59, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
+.dark .glass {
+  background: rgba(34, 26, 20, 0.85);
+  border: 1px solid rgba(61, 48, 40, 0.6);
 }
 
-/* Gradient mesh background - consistent green */
+/* Gradient mesh background - warm green with cream undertones */
 .gradient-mesh {
   background:
     radial-gradient(at 30% 20%, rgba(45, 106, 79, 0.08) 0px, transparent 50%),
     radial-gradient(at 70% 10%, rgba(64, 145, 108, 0.06) 0px, transparent 50%),
-    radial-gradient(at 20% 80%, rgba(45, 106, 79, 0.06) 0px, transparent 50%),
-    radial-gradient(at 80% 70%, rgba(64, 145, 108, 0.08) 0px, transparent 50%);
+    radial-gradient(at 20% 80%, rgba(249, 115, 22, 0.05) 0px, transparent 50%),
+    radial-gradient(at 80% 70%, rgba(45, 106, 79, 0.06) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(226, 214, 198, 0.5) 0px, transparent 70%);
 }
 
-@media (prefers-color-scheme: dark) {
-  .gradient-mesh {
-    background:
-      radial-gradient(at 30% 20%, rgba(82, 183, 136, 0.12) 0px, transparent 50%),
-      radial-gradient(at 70% 10%, rgba(116, 198, 157, 0.08) 0px, transparent 50%),
-      radial-gradient(at 20% 80%, rgba(82, 183, 136, 0.08) 0px, transparent 50%),
-      radial-gradient(at 80% 70%, rgba(116, 198, 157, 0.12) 0px, transparent 50%);
-  }
+.dark .gradient-mesh {
+  background:
+    radial-gradient(at 30% 20%, rgba(82, 183, 136, 0.15) 0px, transparent 50%),
+    radial-gradient(at 70% 10%, rgba(249, 115, 22, 0.08) 0px, transparent 50%),
+    radial-gradient(at 20% 80%, rgba(82, 183, 136, 0.1) 0px, transparent 50%),
+    radial-gradient(at 80% 70%, rgba(168, 152, 136, 0.08) 0px, transparent 50%);
 }
 
 /* Animated gradient background */
@@ -214,10 +209,8 @@
   box-shadow: 0 0 40px rgba(45, 106, 79, 0.3);
 }
 
-@media (prefers-color-scheme: dark) {
-  .glow-primary {
-    box-shadow: 0 0 50px rgba(82, 183, 136, 0.4);
-  }
+.dark .glow-primary {
+  box-shadow: 0 0 50px rgba(82, 183, 136, 0.4);
 }
 
 /* ============================================
@@ -311,10 +304,8 @@
   transform: translateY(-2px);
 }
 
-@media (prefers-color-scheme: dark) {
-  .hover-glow:hover {
-    box-shadow: 0 0 35px rgba(82, 183, 136, 0.25);
-  }
+.dark .hover-glow:hover {
+  box-shadow: 0 0 35px rgba(82, 183, 136, 0.25);
 }
 
 /* Shimmer effect for premium feel */
