@@ -45,28 +45,30 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$vercel$2f$
 ;
 ;
 const metadata = {
-    title: "BiteWise - Smart Recipes for Your Ingredients",
-    description: "Snap a photo of your fridge. Get personalized recipes in seconds. Powered by AI. Join the waitlist for BiteWise, your AI-powered recipe companion.",
+    title: "Taberoux - Smart Recipes from Your Fridge",
+    description: "Snap a photo of your fridge. Get personalized recipes in seconds. Taberoux uses AI to transform your ingredients into delicious meals. Join the waitlist today.",
     keywords: [
         "recipe app",
         "AI recipes",
         "meal planning",
         "fridge scanner",
-        "nutrition tracking"
+        "nutrition tracking",
+        "cooking app",
+        "ingredient recognition"
     ],
     openGraph: {
-        title: "BiteWise - Smart Recipes for Your Ingredients",
+        title: "Taberoux - Smart Recipes from Your Fridge",
         description: "Snap a photo of your fridge. Get personalized recipes in seconds. Powered by AI.",
         type: "website"
     },
     twitter: {
         card: "summary_large_image",
-        title: "BiteWise - Smart Recipes for Your Ingredients",
+        title: "Taberoux - Smart Recipes from Your Fridge",
         description: "Snap a photo of your fridge. Get personalized recipes in seconds. Powered by AI."
     }
 };
 const viewport = {
-    themeColor: "#2D6A4F",
+    themeColor: "#2d6a4f",
     width: "device-width",
     initialScale: 1
 };

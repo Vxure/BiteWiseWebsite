@@ -36,20 +36,20 @@ export function WaitlistForm() {
       <div className="flex flex-col gap-3 sm:flex-row">
         <input
           type="email"
-          placeholder="Enter your email"
+          placeholder="Enter email for early access"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="flex-1 rounded-xl border-2 border-transparent bg-white/80 px-5 py-4 text-deep-teal shadow-lg backdrop-blur-sm transition-all duration-200 placeholder:text-deep-teal/50 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
+          className="flex-1 min-w-0 rounded-xl border-2 border-border bg-background px-5 py-4 text-foreground shadow-sm transition-all duration-200 placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
         />
         <motion.button
           type="submit"
           disabled={status === "loading"}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="rounded-xl bg-gradient-to-r from-accent to-accent-secondary px-8 py-4 font-semibold text-white shadow-lg transition-all duration-200 hover:shadow-xl disabled:opacity-70"
+          className="whitespace-nowrap rounded-xl bg-gradient-to-r from-accent to-accent-secondary px-6 py-4 font-semibold text-white shadow-lg transition-all duration-200 hover:shadow-xl hover:shadow-accent/25 disabled:opacity-70"
         >
-          {status === "loading" ? "Joining..." : "Join the Waitlist"}
+          {status === "loading" ? "Requesting..." : "Request Early Access"}
         </motion.button>
       </div>
 
@@ -67,14 +67,14 @@ export function WaitlistForm() {
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-3 text-sm font-medium text-accent"
+          className="mt-3 text-sm font-medium text-destructive"
         >
           Something went wrong. Please try again.
         </motion.p>
       )}
 
       {status === "idle" && (
-        <p className="mt-3 text-sm text-deep-teal/60">Be the first to know when we launch. No spam, ever.</p>
+        <p className="mt-3 text-sm text-muted-foreground">We'll email you when Taberoux is ready for testing.</p>
       )}
     </form>
   )

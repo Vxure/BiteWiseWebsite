@@ -9,23 +9,27 @@ export function FinalCtaSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section className="bg-gradient-to-b from-background-warm to-background-cream px-4 py-20 md:py-28">
+    <section className="relative bg-background-subtle px-4 py-20 md:py-28 overflow-hidden">
+      {/* Background decorations */}
+      <div className="absolute inset-0 gradient-mesh opacity-40" />
+      <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-primary/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+
       <motion.div
         ref={ref}
         initial={{ opacity: 0, y: 20 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.6 }}
-        className="mx-auto max-w-2xl text-center"
+        className="relative mx-auto max-w-2xl text-center"
       >
-        <h2 className="text-3xl font-bold text-deep-teal md:text-4xl lg:text-5xl">
+        <h2 className="text-3xl font-bold text-foreground md:text-4xl lg:text-5xl tracking-tight">
           Ready to transform your{" "}
           <span className="bg-gradient-to-r from-accent to-accent-secondary bg-clip-text text-transparent">
             cooking?
           </span>
         </h2>
 
-        <p className="mt-4 text-lg text-deep-teal/70">
-          Join <span className="font-semibold text-accent">500+</span> people on the waitlist
+        <p className="mt-4 text-lg text-muted-foreground">
+          Join <span className="font-semibold text-primary">500+</span> people on the waitlist
         </p>
 
         <div className="mt-8">

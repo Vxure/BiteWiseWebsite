@@ -11,20 +11,22 @@ function TikTokIcon({ className }: { className?: string }) {
 
 export function Footer() {
   return (
-    <footer className="bg-deep-teal px-4 py-12">
+    <footer className="bg-foreground px-4 py-12">
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col items-center gap-8 text-center">
           {/* Logo */}
-          <Link href="/" className="text-2xl font-bold text-white">
-            BiteWise
+          <Link href="/" className="text-2xl font-bold text-background">
+            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              Taberoux
+            </span>
           </Link>
 
           {/* Links */}
           <div className="flex flex-wrap justify-center gap-6">
-            <Link href="#" className="text-sm text-white/70 transition-colors hover:text-white">
+            <Link href="#" className="text-sm text-background/70 transition-colors hover:text-background">
               Privacy Policy
             </Link>
-            <Link href="#" className="text-sm text-white/70 transition-colors hover:text-white">
+            <Link href="#" className="text-sm text-background/70 transition-colors hover:text-background">
               Terms of Service
             </Link>
           </div>
@@ -33,30 +35,30 @@ export function Footer() {
           <div className="flex gap-4">
             <Link
               href="#"
-              className="rounded-full bg-white/10 p-2 transition-colors hover:bg-white/20"
+              className="rounded-full bg-background/10 p-2.5 transition-all hover:bg-background/20 hover:scale-110"
               aria-label="Twitter"
             >
-              <Twitter className="h-5 w-5 text-white" />
+              <Twitter className="h-5 w-5 text-background" />
             </Link>
             <Link
               href="#"
-              className="rounded-full bg-white/10 p-2 transition-colors hover:bg-white/20"
+              className="rounded-full bg-background/10 p-2.5 transition-all hover:bg-background/20 hover:scale-110"
               aria-label="Instagram"
             >
-              <Instagram className="h-5 w-5 text-white" />
+              <Instagram className="h-5 w-5 text-background" />
             </Link>
             <Link
               href="#"
-              className="rounded-full bg-white/10 p-2 transition-colors hover:bg-white/20"
+              className="rounded-full bg-background/10 p-2.5 transition-all hover:bg-background/20 hover:scale-110"
               aria-label="TikTok"
             >
-              <TikTokIcon className="h-5 w-5 text-white" />
+              <TikTokIcon className="h-5 w-5 text-background" />
             </Link>
           </div>
 
           {/* Copyright */}
-          <div className="space-y-2 text-sm text-white/60">
-            <p>© 2025 BiteWise. All rights reserved.</p>
+          <div className="space-y-2 text-sm text-background/50">
+            <p>© 2025 Taberoux. All rights reserved.</p>
             <p>Made with 🍳 for home cooks everywhere</p>
           </div>
         </div>
