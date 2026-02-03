@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { useState, useEffect, useCallback } from "react"
+import { motion } from "framer-motion"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import Image from "next/image"
@@ -15,6 +15,58 @@ const screenshots = [
   "/image/screenshot/recipeAssistant.png"
 ]
 
+// Stable image component that stays mounted - prevents remounting during transitions
+function CarouselImage({
+  src,
+  index,
+  isActive
+}: {
+  src: string
+  index: number
+  isActive: boolean
+}) {
+  return (
+    <motion.div
+      initial={false}
+      animate={{
+        opacity: isActive ? 1 : 0,
+      }}
+      transition={{
+        duration: 0.8,
+        ease: "easeInOut"
+      }}
+      className="absolute inset-0"
+      style={{
+        // GPU acceleration - promote to compositor layer
+        willChange: 'opacity',
+        transform: 'translateZ(0)',
+        // Prevent pointer events on hidden slides
+        pointerEvents: isActive ? 'auto' : 'none',
+      }}
+    >
+      <Image
+        src={src}
+        alt={`App Screenshot ${index + 1}`}
+        width={816}
+        height={1770}
+        quality={100}
+        // Priority load ALL images upfront to prevent decode during animation
+        priority
+        unoptimized
+        sizes="408px"
+        className="w-full h-auto"
+        // Ensure image is decoded before paint
+        loading="eager"
+        // Fixed dimensions prevent layout shift
+        style={{
+          width: '100%',
+          height: 'auto',
+        }}
+      />
+    </motion.div>
+  )
+}
+
 export function HeroSection() {
   const [currentIndex, setCurrentIndex] = useState(0)
 
@@ -26,6 +78,7 @@ export function HeroSection() {
 
     return () => clearInterval(timer)
   }, [])
+
   return (
     <section className="relative min-h-screen overflow-x-clip bg-background px-4 pt-28 pb-12 md:pt-24 md:pb-20 xl:flex xl:items-center xl:pt-16 xl:pb-16">
       {/* Gradient mesh background */}
@@ -129,30 +182,25 @@ export function HeroSection() {
                 {/* Subtle floating glow - larger blur for smoother edges */}
                 <div className="absolute -inset-8 rounded-[4rem] bg-gradient-to-tr from-primary/15 via-secondary/10 to-accent/15 blur-3xl opacity-40" />
 
-                {/* Carousel of phone screenshots - Retina optimized */}
-                <div className="relative w-full" style={{ aspectRatio: '816/1770' }}>
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={currentIndex}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.8, ease: "easeInOut" }}
-                      className="absolute inset-0"
-                    >
-                      <Image
-                        src={screenshots[currentIndex]}
-                        alt={`App Screenshot ${currentIndex + 1}`}
-                        width={816}
-                        height={1770}
-                        quality={100}
-                        priority={currentIndex === 0}
-                        unoptimized
-                        sizes="408px"
-                        className="w-full h-auto"
-                      />
-                    </motion.div>
-                  </AnimatePresence>
+                {/* Carousel of phone screenshots - GPU accelerated, all images stay mounted */}
+                <div
+                  className="relative w-full overflow-hidden"
+                  style={{
+                    aspectRatio: '816/1770',
+                    // Contain stacking context and enable hardware acceleration
+                    isolation: 'isolate',
+                    transform: 'translateZ(0)',
+                  }}
+                >
+                  {/* Render all images - they stay mounted, only opacity changes */}
+                  {screenshots.map((src, index) => (
+                    <CarouselImage
+                      key={src}
+                      src={src}
+                      index={index}
+                      isActive={index === currentIndex}
+                    />
+                  ))}
                 </div>
               </motion.div>
             </div>
