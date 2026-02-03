@@ -123,7 +123,7 @@ export function HeroSection() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="mt-4 text-2xl font-semibold text-foreground/90 md:text-3xl"
             >
-              <span className="md:whitespace-nowrap">Your personal cooking assistant that knows</span>
+              <span className="md:whitespace-nowrap">Your personal cooking assistant that knows </span>
               <br className="hidden md:inline" />
               <span className="md:whitespace-nowrap">what's in your kitchen.</span>
             </motion.h2>
@@ -135,7 +135,7 @@ export function HeroSection() {
               className="mt-4 -mb-1 max-w-lg text-base text-muted-foreground leading-relaxed"
             >
               {/* <span className="md:whitespace-nowrap">Turn what's already in your kitchen into meals. Snap a photo or add ingredients manually</span> */}
-              <span className="md:whitespace-nowrap">Snap a photo or add ingredients manually to get recipes tailored to your</span>
+              <span className="md:whitespace-nowrap">Snap a photo or add ingredients manually to get recipes tailored to your </span>
 
               <br className="hidden md:inline" />
               <span className="md:whitespace-nowrap">taste, diet, and time.</span>

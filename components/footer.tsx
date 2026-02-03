@@ -57,9 +57,8 @@ export function Footer() {
           </div>
 
           {/* Copyright */}
-          <div className="space-y-2 text-sm text-background/50">
+          <div className="text-sm text-background/50">
             <p>© 2025 Taberoux. All rights reserved.</p>
-            <p>Made with 🍳 for home cooks everywhere</p>
           </div>
         </div>
       </div>
