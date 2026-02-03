@@ -8,18 +8,18 @@ import "./globals.css"
 const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Taberoux - Smart Recipes from Your Fridge",
+  title: "Taberoux | Smart Recipes from Your Fridge",
   description:
     "Snap a photo of your fridge. Get personalized recipes in seconds. Taberoux uses AI to transform your ingredients into delicious meals. Join the waitlist today.",
   keywords: ["recipe app", "AI recipes", "meal planning", "fridge scanner", "nutrition tracking", "cooking app", "ingredient recognition"],
   openGraph: {
-    title: "Taberoux - Smart Recipes from Your Fridge",
+    title: "Taberoux | Smart Recipes from Your Fridge",
     description: "Snap a photo of your fridge. Get personalized recipes in seconds. Powered by AI.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Taberoux - Smart Recipes from Your Fridge",
+    title: "Taberoux |Smart Recipes from Your Fridge",
     description: "Snap a photo of your fridge. Get personalized recipes in seconds. Powered by AI.",
   },
 }

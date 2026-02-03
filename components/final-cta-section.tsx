@@ -29,7 +29,7 @@ export function FinalCtaSection() {
         </h2>
 
         <p className="mt-4 text-lg text-muted-foreground">
-          Join <span className="font-semibold text-primary">500+</span> people on the waitlist
+          Join <span className="font-semibold text-primary">100+</span> people on the waitlist
         </p>
 
         <div className="mt-8">

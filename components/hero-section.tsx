@@ -1,14 +1,33 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
+import Image from "next/image"
 import { WaitlistForm } from "./waitlist-form"
-import { PhoneMockup } from "./phone-mockup"
+
+const screenshots = [
+  "/image/screenshot/introScreen.png",
+  "/image/screenshot/detectedIngredients.png",
+  "/image/screenshot/generatedRecipes.png",
+  "/image/screenshot/recipePage.png",
+  "/image/screenshot/recipeAssistant.png"
+]
 
 export function HeroSection() {
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  // Rotate through images every 5 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % screenshots.length)
+    }, 5000)
+
+    return () => clearInterval(timer)
+  }, [])
   return (
-    <section className="relative min-h-screen overflow-hidden bg-background px-4 pt-28 pb-12 md:pt-24 md:pb-20 lg:flex lg:items-center lg:pt-16 lg:pb-16">
+    <section className="relative min-h-screen overflow-x-clip bg-background px-4 pt-28 pb-12 md:pt-24 md:pb-20 xl:flex xl:items-center xl:pt-16 xl:pb-16">
       {/* Gradient mesh background */}
       <div className="absolute inset-0 gradient-mesh" />
 
@@ -16,11 +35,11 @@ export function HeroSection() {
       <div className="absolute top-10 left-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] animate-pulse-glow" />
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-primary/8 rounded-full blur-[150px] animate-pulse-glow-delayed" />
 
-      <div className="relative mx-auto max-w-5xl">
-        {/* Centered container with gap - whitespace flows to edges */}
-        <div className="grid items-center justify-center gap-8 lg:grid-cols-[1fr_auto] lg:gap-58">
+      <div className="relative mx-auto w-full" style={{ maxWidth: 'min(100%, 64rem)' }}>
+        {/* Centered container with gap - whitespace flows to edges, gap shrinks with viewport */}
+        <div className="grid items-center justify-center xl:grid-cols-[1fr_auto] min-w-0 overflow-visible" style={{ gap: 'clamp(2rem, 12vw, 432px)' }}>
           {/* Left Content */}
-          <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+          <div className="flex flex-col items-center text-center xl:items-start xl:text-left">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -38,36 +57,42 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="font-sans text-5xl font-bold tracking-tight md:text-6xl lg:text-7xl"
+              className="font-sans text-5xl font-bold tracking-tight whitespace-nowrap md:text-6xl lg:text-7xl"
             >
               <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">
-                Taberoux
+                Meet Taberoux
               </span>
             </motion.h1>
 
-            <motion.p
+            <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="mt-4 text-xl font-medium text-foreground/80 md:text-2xl"
+              className="mt-4 text-2xl font-semibold text-foreground/90 md:text-3xl"
             >
-              Meals from what's already in your fridge
-            </motion.p>
+              <span className="md:whitespace-nowrap">Your personal cooking assistant that knows</span>
+              <br className="hidden md:inline" />
+              <span className="md:whitespace-nowrap">what's in your kitchen.</span>
+            </motion.h2>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="mt-4 max-w-lg text-lg text-muted-foreground"
+              className="mt-4 -mb-1 max-w-lg text-base text-muted-foreground leading-relaxed"
             >
-              Snap a photo of your ingredients and get recipes tailored to your taste, diet, and goals.
+              {/* <span className="md:whitespace-nowrap">Turn what's already in your kitchen into meals. Snap a photo or add ingredients manually</span> */}
+              <span className="md:whitespace-nowrap">Snap a photo or add ingredients manually to get recipes tailored to your</span>
+
+              <br className="hidden md:inline" />
+              <span className="md:whitespace-nowrap">taste, diet, and time.</span>
             </motion.p>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="mt-8 w-full max-w-xl"
+              className="mt-10 w-full max-w-xl"
             >
               <WaitlistForm />
 
@@ -87,12 +112,49 @@ export function HeroSection() {
             initial={{ opacity: 0, x: 40, rotate: 3 }}
             animate={{ opacity: 1, x: 0, rotate: 3 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="flex justify-center mt-8 lg:mt-12"
+            className="flex justify-center mt-8 xl:mt-12 min-w-0 shrink-0"
           >
-            <div className="relative">
-              {/* Light shadow beneath phone */}
-              <div className="absolute -inset-4 rounded-[3rem] bg-black/15 blur-2xl" />
-              <PhoneMockup label="App Screenshot" imageSrc="/image/introScreen.png" className="relative z-10" />
+            <div className="relative flex-shrink-0 w-[408px] max-w-[90vw]">
+              {/* Smooth diffused shadow beneath phone - larger blur for soft edges */}
+              <div className="absolute -inset-8 rounded-[4rem] bg-black/10 blur-3xl" />
+              <div className="absolute -inset-12 rounded-[5rem] bg-black/5 blur-[60px]" />
+
+              {/* Floating animation wrapper - GPU optimized for crisp rendering */}
+              <motion.div
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+                className="relative z-10"
+                style={{ willChange: 'transform', transform: 'translateZ(0)' }}
+              >
+                {/* Subtle floating glow - larger blur for smoother edges */}
+                <div className="absolute -inset-8 rounded-[4rem] bg-gradient-to-tr from-primary/15 via-secondary/10 to-accent/15 blur-3xl opacity-40" />
+
+                {/* Carousel of phone screenshots - Retina optimized */}
+                <div className="relative w-full" style={{ aspectRatio: '816/1770' }}>
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={currentIndex}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.8, ease: "easeInOut" }}
+                      className="absolute inset-0"
+                    >
+                      <Image
+                        src={screenshots[currentIndex]}
+                        alt={`App Screenshot ${currentIndex + 1}`}
+                        width={816}
+                        height={1770}
+                        quality={100}
+                        priority={currentIndex === 0}
+                        unoptimized
+                        sizes="408px"
+                        className="w-full h-auto"
+                      />
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              </motion.div>
             </div>
           </motion.div>
         </div>

@@ -93,7 +93,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$theme$2d$provi
 ;
 ;
 const metadata = {
-    title: "Taberoux - Smart Recipes from Your Fridge",
+    title: "Taberoux | Smart Recipes from Your Fridge",
     description: "Snap a photo of your fridge. Get personalized recipes in seconds. Taberoux uses AI to transform your ingredients into delicious meals. Join the waitlist today.",
     keywords: [
         "recipe app",
@@ -105,13 +105,13 @@ const metadata = {
         "ingredient recognition"
     ],
     openGraph: {
-        title: "Taberoux - Smart Recipes from Your Fridge",
+        title: "Taberoux | Smart Recipes from Your Fridge",
         description: "Snap a photo of your fridge. Get personalized recipes in seconds. Powered by AI.",
         type: "website"
     },
     twitter: {
         card: "summary_large_image",
-        title: "Taberoux - Smart Recipes from Your Fridge",
+        title: "Taberoux |Smart Recipes from Your Fridge",
         description: "Snap a photo of your fridge. Get personalized recipes in seconds. Powered by AI."
     }
 };

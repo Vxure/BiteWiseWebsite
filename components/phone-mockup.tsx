@@ -1,15 +1,41 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 
 interface PhoneMockupProps {
   label?: string
   className?: string
   imageSrc?: string
+  imageSrcs?: string[]  // Multiple images for carousel
+  interval?: number     // Rotation interval in ms (default: 3000)
 }
 
-export function PhoneMockup({ label = "App Screenshot", className = "", imageSrc }: PhoneMockupProps) {
+export function PhoneMockup({
+  label = "App Screenshot",
+  className = "",
+  imageSrc,
+  imageSrcs,
+  interval = 3000
+}: PhoneMockupProps) {
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  // Get the list of images - either a single image or multiple
+  const images = imageSrcs || (imageSrc ? [imageSrc] : [])
+  const hasMultipleImages = images.length > 1
+
+  // Rotate through images
+  useEffect(() => {
+    if (!hasMultipleImages) return
+
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length)
+    }, interval)
+
+    return () => clearInterval(timer)
+  }, [hasMultipleImages, images.length, interval])
+
   return (
     <motion.div
       animate={{ y: [0, -10, 0] }}
@@ -17,24 +43,46 @@ export function PhoneMockup({ label = "App Screenshot", className = "", imageSrc
       className={`relative ${className}`}
     >
       {/* Subtle floating glow */}
-      <div className="absolute -inset-4 rounded-[3rem] bg-gradient-to-tr from-primary/20 via-secondary/15 to-accent/20 blur-2xl opacity-50" />
+      <div className="absolute -inset-4 rounded-[2.75rem] bg-gradient-to-tr from-primary/20 via-secondary/15 to-accent/20 blur-2xl opacity-50" />
 
-      {/* Phone Frame - concentric radii: 3rem (48px) outer, p-3 (12px) bezel, 2.25rem (36px) inner */}
-      <div className="relative h-[580px] w-[280px] max-w-[340px] rounded-[3rem] bg-black p-3 shadow-2xl md:h-[640px] md:w-[320px]">
-        {/* Dynamic Island */}
-        <div className="absolute left-1/2 top-4 z-20 h-6 w-24 -translate-x-1/2 rounded-full bg-black" />
+      {/* Phone Frame - iPhone 15/16/17 Pro Max style
+           Ultra-thin bezels, titanium finish, refined Dynamic Island
+           Screen area maintains iPhone Pro Max aspect ratio (~19.5:9) */}
+      <div className="relative h-[580px] w-[268px] rounded-[2.75rem] bg-gradient-to-b from-[#2a2a2e] via-[#1c1c1e] to-[#1c1c1e] p-[6px] shadow-2xl md:h-[667px] md:w-[308px]">
+        {/* Titanium edge highlight */}
+        <div className="absolute inset-0 rounded-[2.75rem] bg-gradient-to-br from-white/10 via-transparent to-transparent pointer-events-none" />
 
-        {/* Screen - inner radius: outer (48px) - padding (12px) = 36px = 2.25rem */}
-        <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[2.25rem] bg-white">
-          {imageSrc ? (
-            <Image
-              src={imageSrc}
-              alt={label}
-              fill
-              unoptimized
-              className="object-cover"
-              priority={className.includes("z-10") || !className.includes("scale-75")}
-            />
+        {/* Dynamic Island - refined Pro Max style with camera cutout */}
+        <div className="absolute left-1/2 top-3 z-20 -translate-x-1/2 flex items-center gap-2 h-[26px] w-[100px] rounded-full bg-black md:w-[110px]">
+          {/* Camera lens */}
+          <div className="absolute left-3 h-[10px] w-[10px] rounded-full bg-[#1a1a1a] ring-1 ring-[#2a2a2e]">
+            <div className="absolute inset-[2px] rounded-full bg-[#0d0d0d]" />
+            <div className="absolute top-[2px] left-[2px] h-1 w-1 rounded-full bg-[#4a4a4a]/40" />
+          </div>
+        </div>
+
+        {/* Screen - ultra-thin bezel creates edge-to-edge look */}
+        <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[2.5rem] bg-white">
+          {images.length > 0 ? (
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={images[currentIndex]}
+                  alt={`${label} ${currentIndex + 1}`}
+                  fill
+                  unoptimized
+                  className="object-cover"
+                  priority={className.includes("z-10") || !className.includes("scale-75")}
+                />
+              </motion.div>
+            </AnimatePresence>
           ) : (
             /* Placeholder */
             <div className="flex h-[90%] w-[90%] flex-col items-center justify-center rounded-2xl border-2 border-dashed border-primary/30 bg-background/50">
@@ -51,8 +99,8 @@ export function PhoneMockup({ label = "App Screenshot", className = "", imageSrc
           )}
         </div>
 
-        {/* Home Bar indicator */}
-        <div className="absolute bottom-2 left-1/2 z-20 h-1 w-32 -translate-x-1/2 rounded-full bg-black/20" />
+        {/* Home Bar indicator - subtle iOS style */}
+        <div className="absolute bottom-[10px] left-1/2 z-20 h-[5px] w-[120px] -translate-x-1/2 rounded-full bg-black/80 md:w-[134px]" />
       </div>
     </motion.div>
   )

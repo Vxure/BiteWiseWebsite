@@ -5,7 +5,17 @@ import type React from "react"
 import { useState } from "react"
 import { motion } from "framer-motion"
 
-export function WaitlistForm() {
+interface WaitlistFormProps {
+  // Dynamic waitlist count - can be fetched from Supabase
+  waitlistCount?: number
+  // Toggle social proof visibility
+  showSocialProof?: boolean
+}
+
+export function WaitlistForm({
+  waitlistCount = 100,
+  showSocialProof = true
+}: WaitlistFormProps) {
   const [email, setEmail] = useState("")
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
 
@@ -36,7 +46,7 @@ export function WaitlistForm() {
       <div className="flex flex-col gap-3 sm:flex-row">
         <input
           type="email"
-          placeholder="Enter email for early access"
+          placeholder="Enter your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -49,7 +59,7 @@ export function WaitlistForm() {
           whileTap={{ scale: 0.98 }}
           className="whitespace-nowrap rounded-xl bg-gradient-to-r from-accent to-accent-secondary px-6 py-4 font-semibold text-white shadow-lg transition-all duration-200 hover:shadow-xl hover:shadow-accent/25 disabled:opacity-70"
         >
-          {status === "loading" ? "Requesting..." : "Request Early Access"}
+          {status === "loading" ? "Joining..." : "Join the Waitlist"}
         </motion.button>
       </div>
 
@@ -74,7 +84,16 @@ export function WaitlistForm() {
       )}
 
       {status === "idle" && (
-        <p className="mt-3 text-sm text-muted-foreground">We'll email you when Taberoux is ready for testing.</p>
+        <div className="mt-3 space-y-1">
+          {showSocialProof && (
+            <p className="text-sm text-muted-foreground/70">
+              Join {waitlistCount}+ people already on the waitlist
+            </p>
+          )}
+          <p className="text-sm text-muted-foreground">
+            {/* We'll email you when it's your turn to try Taberoux. */}
+          </p>
+        </div>
       )}
     </form>
   )
