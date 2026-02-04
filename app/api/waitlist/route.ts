@@ -298,7 +298,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             // Add timing noise to prevent email enumeration
             await addTimingNoise();
             return createResponse(
-                { success: false, message: "This email is already on the waitlist!" },
+                { success: false, message: "You’re already on the waitlist — we’ll be in touch!" },
                 409,
                 origin
             );

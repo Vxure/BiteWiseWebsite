@@ -152,10 +152,10 @@ export function HeroSection() {
               {/* Subtle explore link */}
               <Link
                 href="/features"
-                className="mt-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
+                className="mt-6 inline-flex items-center gap-1.5 text-base text-muted-foreground hover:text-primary transition-colors"
               >
                 Want to see how it works? <span className="font-medium">Explore Taberoux</span>
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-5 w-5" />
               </Link>
             </motion.div>
           </div>

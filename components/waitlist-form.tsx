@@ -18,6 +18,7 @@ export function WaitlistForm({
 }: WaitlistFormProps) {
   const [email, setEmail] = useState("")
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
+  const [errorMessage, setErrorMessage] = useState("")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -30,14 +31,20 @@ export function WaitlistForm({
         body: JSON.stringify({ email }),
       })
 
+      const data = await response.json()
+
       if (response.ok) {
         setStatus("success")
         setEmail("")
+        setErrorMessage("")
       } else {
         setStatus("error")
+        setErrorMessage(data.message || "Something went wrong. Please try again.")
       }
-    } catch {
+    } catch (error) {
+      console.error("Waitlist submission error:", error)
       setStatus("error")
+      setErrorMessage("Something went wrong. Please try again.")
     }
   }
 
@@ -77,9 +84,12 @@ export function WaitlistForm({
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-3 text-sm font-medium text-destructive"
+          className={`mt-3 text-xs font-medium ${errorMessage === "You’re already on the waitlist — we’ll be in touch!"
+            ? "text-slate-500"
+            : "text-destructive"
+            }`}
         >
-          Something went wrong. Please try again.
+          {errorMessage || "Something went wrong. Please try again."}
         </motion.p>
       )}
 
