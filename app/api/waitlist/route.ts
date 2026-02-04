@@ -352,8 +352,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             origin
         );
     } catch (error) {
-        // Log error internally but don't expose details
-        console.error("[API] Waitlist signup error:", error);
+        // Log error internally with details for debugging
+        console.error("[API] Waitlist signup error details:", {
+            message: error instanceof Error ? error.message : "Unknown error",
+            stack: error instanceof Error ? error.stack : undefined,
+            error
+        });
 
         // Add timing noise to prevent error-based timing attacks
         await addTimingNoise();

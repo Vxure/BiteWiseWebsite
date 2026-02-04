@@ -3,6 +3,10 @@
  * 
  * Production-ready Supabase integration for waitlist management.
  * Includes input validation, error handling, and referral tracking.
+ * 
+ * NOTE: Ensure your 'waitlist' table has appropriate RLS policies:
+ * 1. Allow public insert: 'Enable insert for authenticated and anon users'
+ * 2. Allow public select (optional): 'Enable select for anon users' (needed for checkEmailExists)
  */
 
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
@@ -107,8 +111,12 @@ export async function checkEmailExists(email: string): Promise<boolean> {
         .limit(1);
 
     if (error) {
-        console.error("[Supabase] Error checking email:", error);
-        throw new Error("Failed to check email status");
+        console.error("[Supabase] Error checking email:", {
+            error: error.message,
+            code: error.code,
+            details: error.details
+        });
+        throw new Error(`Failed to check email status: ${error.message}`);
     }
 
     return (data?.length ?? 0) > 0;
@@ -159,23 +167,28 @@ export async function addToWaitlist(entry: WaitlistEntry): Promise<string> {
         ? sanitizeInput(entry.referredBy).toUpperCase()
         : null;
 
-    const { data, error } = await supabase
+
+    const { error } = await supabase
         .from("waitlist")
         .insert({
             email,
             name,
             referral_code: referralCode,
             referred_by: referredBy,
-        })
-        .select("id")
-        .single();
+        });
 
     if (error) {
-        console.error("[Supabase] Error adding to waitlist:", error);
-        throw new Error("Failed to add to waitlist");
+        console.error("[Supabase] Error adding to waitlist:", {
+            error: error.message,
+            code: error.code,
+            details: error.details,
+            hint: error.hint
+        });
+        throw new Error(`Failed to add to waitlist: ${error.message}`);
     }
 
-    return data.id;
+    return referralCode;
+
 }
 
 /**

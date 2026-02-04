@@ -14,56 +14,90 @@
 import { Redis } from "@upstash/redis";
 import { Ratelimit } from "@upstash/ratelimit";
 
+
 // Validate environment variables
 const UPSTASH_REDIS_REST_URL = process.env.UPSTASH_REDIS_REST_URL;
 const UPSTASH_REDIS_REST_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
 
-if (!UPSTASH_REDIS_REST_URL || !UPSTASH_REDIS_REST_TOKEN) {
-    console.warn(
-        "[Redis] Missing environment variables. Set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN in .env.local"
-    );
+// Lazy initialization to prevent top-level errors
+let redisInstance: Redis | null = null;
+let signupRatelimitInstance: Ratelimit | null = null;
+let strictRatelimitInstance: Ratelimit | null = null;
+let globalRatelimitInstance: Ratelimit | null = null;
+
+/**
+ * Gets or creates the Redis client
+ */
+export function getRedis(): Redis | null {
+    if (!UPSTASH_REDIS_REST_URL || !UPSTASH_REDIS_REST_TOKEN) {
+        return null;
+    }
+
+    if (!redisInstance) {
+        redisInstance = new Redis({
+            url: UPSTASH_REDIS_REST_URL,
+            token: UPSTASH_REDIS_REST_TOKEN,
+        });
+    }
+
+    return redisInstance;
 }
 
-// Initialize Redis client
-export const redis = new Redis({
-    url: UPSTASH_REDIS_REST_URL || "",
-    token: UPSTASH_REDIS_REST_TOKEN || "",
-});
+/**
+ * Gets or creates the signup rate limiter
+ */
+function getSignupRatelimit(): Ratelimit | null {
+    const redis = getRedis();
+    if (!redis) return null;
+
+    if (!signupRatelimitInstance) {
+        signupRatelimitInstance = new Ratelimit({
+            redis,
+            limiter: Ratelimit.slidingWindow(20, "1 h"),
+            analytics: true,
+            prefix: "waitlist:signup:",
+        });
+    }
+
+    return signupRatelimitInstance;
+}
 
 /**
- * Primary rate limiter for signup requests
- * 
- * Configuration:
- * - 5 requests per hour per identifier (IP or email)
- * - Sliding window for fair distribution
- * - Prefix to namespace keys
+ * Gets or creates the strict rate limiter
  */
-export const signupRatelimit = new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(20, "1 h"), // 20 signups per hour (adjust for production)
-    analytics: true, // Enable analytics for monitoring
-    prefix: "waitlist:signup:",
-});
+function getStrictRatelimit(): Ratelimit | null {
+    const redis = getRedis();
+    if (!redis) return null;
+
+    if (!strictRatelimitInstance) {
+        strictRatelimitInstance = new Ratelimit({
+            redis,
+            limiter: Ratelimit.slidingWindow(2, "1 h"),
+            prefix: "waitlist:strict:",
+        });
+    }
+
+    return strictRatelimitInstance;
+}
 
 /**
- * Stricter rate limiter for repeated failures
- * Applied when suspicious activity is detected
+ * Gets or creates the global rate limiter
  */
-export const strictRatelimit = new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(2, "1 h"), // 2 attempts per hour
-    prefix: "waitlist:strict:",
-});
+function getGlobalRatelimit(): Ratelimit | null {
+    const redis = getRedis();
+    if (!redis) return null;
 
-/**
- * Global rate limiter to prevent system overload
- * Applies across all requests regardless of IP
- */
-export const globalRatelimit = new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(1000, "1 h"), // 1000 signups per hour globally
-    prefix: "waitlist:global:",
-});
+    if (!globalRatelimitInstance) {
+        globalRatelimitInstance = new Ratelimit({
+            redis,
+            limiter: Ratelimit.slidingWindow(1000, "1 h"),
+            prefix: "waitlist:global:",
+        });
+    }
+
+    return globalRatelimitInstance;
+}
+
 
 /**
  * Rate limit result interface
@@ -94,6 +128,12 @@ export async function checkRateLimit(
 ): Promise<RateLimitResult> {
     try {
         // Layer 1: Global rate limit
+        const globalRatelimit = getGlobalRatelimit();
+        if (!globalRatelimit) {
+            // If Redis is not configured, fall through
+            return { success: true, limit: 999, remaining: 999, reset: Date.now() + 3600000 };
+        }
+
         const globalResult = await globalRatelimit.limit("global");
         if (!globalResult.success) {
             return {
@@ -106,6 +146,11 @@ export async function checkRateLimit(
         }
 
         // Layer 2: IP-based rate limit
+        const signupRatelimit = getSignupRatelimit();
+        if (!signupRatelimit) {
+            return { success: true, limit: 999, remaining: 999, reset: Date.now() + 3600000 };
+        }
+
         const ipResult = await signupRatelimit.limit(ip);
         if (!ipResult.success) {
             return {
@@ -166,6 +211,10 @@ export async function checkRateLimit(
  * @param ip - IP address to apply strict limiting to
  */
 export async function applyStrictLimit(ip: string): Promise<RateLimitResult> {
+    const strictRatelimit = getStrictRatelimit();
+    if (!strictRatelimit) {
+        return { success: true, limit: 999, remaining: 999, reset: Date.now() };
+    }
     const result = await strictRatelimit.limit(ip);
     return {
         success: result.success,
@@ -186,6 +235,9 @@ export async function recordBlockedRequest(
     reason: string
 ): Promise<void> {
     try {
+        const redis = getRedis();
+        if (!redis) return;
+
         const key = `waitlist:blocked:${ip}`;
         await redis.lpush(key, JSON.stringify({ reason, timestamp: Date.now() }));
         await redis.expire(key, 86400); // Keep for 24 hours
@@ -227,6 +279,8 @@ async function hashEmail(email: string): Promise<string> {
  */
 export async function checkRedisHealth(): Promise<boolean> {
     try {
+        const redis = getRedis();
+        if (!redis) return false;
         await redis.ping();
         return true;
     } catch {
